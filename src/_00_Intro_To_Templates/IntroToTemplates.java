@@ -36,7 +36,7 @@ public class IntroToTemplates {
 	}
 }
 
-//Here a class is created that has a template called AotherTemplate
+//Here a class is created that has a template called AnotherTemplate
 //Class templates must be a class, not a primitive data type: int, float, double, boolean, long, short, byte
 class SomeClass<AnotherTemplate>{
 	//Here the t variable can be any object type

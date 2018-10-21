@@ -76,13 +76,24 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 	public void startGame() {
 		//1. Save the instructions for the game in the following string variable.
 		String instructions = "";
-		
+		//??? what instructions??
 		String[] options = new String[] { "Expert", "Moderate", "Beginner" };
 		int input = JOptionPane.showOptionDialog(null, instructions, "Snake", 0, -1, null, options, 0);
 
 		String choice = options[input];
 		
 		//2. Use a switch statement to determine which difficulty was chosen.
+		switch(choice) {
+		case "Expert":
+			//what here
+			break;
+		case "Moderate":
+			//what here
+			break;
+		case "Beginner":
+			//what here
+			break;
+		}
 		//   Use timer.setDelay(delay) with different numbers to change the speed
 		//   of the game. The smaller the number, the faster it goes.
 
