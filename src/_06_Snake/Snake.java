@@ -25,7 +25,7 @@ public class Snake {
 
 	public void feed() {
 		//1. add a new SnakeSegment object to the snake
-		snake.add(new SnakeSegment(new Location(10,10), BODY_SIZE));
+		snake.add(new SnakeSegment(snake.get(0).getLocation(), BODY_SIZE));
 		//snake.get(0).getLocation()
 	}
 
@@ -116,7 +116,7 @@ public class Snake {
 		//   in the same location as any other body segment
 		boolean sharedLocation = false;
 		for(int i = 1; i < snake.size()-1; i++)
-		if(head.getLocation() == snake.get(i).getLocation()) {
+		if(head.getLocation().equals(snake.get(i).getLocation())) {
 		sharedLocation = true;
 		}
 		return sharedLocation;

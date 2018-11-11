@@ -191,9 +191,11 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		if(snake.isHeadCollidingWithBody() == true || snake.isOutOfBounds(WIDTH, HEIGHT) == true) {
 		gameOver();
 		}
+
 		//3. if the location of the head is equal to the location of the food,
 		// 	 feed the snake and set the food location
-		if(snake.getHeadLocation() == foodLocation) {
+		if(snake.getHeadLocation().equals(foodLocation)) {
+			System.out.println("Hi");
 			snake.feed();
 			foodLocation = new Location(gen.nextInt(WIDTH), gen.nextInt(HEIGHT));
 		}

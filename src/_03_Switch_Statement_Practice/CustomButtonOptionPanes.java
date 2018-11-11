@@ -31,7 +31,7 @@ public class CustomButtonOptionPanes {
 			System.out.println("Hi my name's Trey I have a basketball game tomorrooooowowwwwwww");
 			break;
 		case "Friday":
-			System.out.println("Come to Del Taco they've got freshavocado");
+			System.out.println("Come to Del Taco they've got fresha... freshavOCADO");
 			break;
 		case "Saturday":
 			System.out.println("Chris, is that a WEED");
