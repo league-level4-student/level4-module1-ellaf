@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -162,6 +164,21 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		timer.stop();
 		//2. tell the user their snake is dead
 		JOptionPane.showMessageDialog(null, "Your snake is dead.");
+		int score = snake.score();
+		String name = JOptionPane.showInputDialog(null, "Your score is: " + score + "\nWhat is your name?");
+	
+		try
+		{
+		    String filename= "src/_06_Snake/scores.txt";
+		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+		    fw.write(score + " - " + name + "\n");//appends the string to the file
+		    fw.close();
+		}
+		catch(IOException ioe)
+		{
+		    System.err.println("IOException: " + ioe.getMessage());
+		}
+		
 		//3. ask them if they want to play again.
 		String[] options = new String[] { "Yes", "No"};
 		int ans = JOptionPane.showOptionDialog(null, "Do you want to play again?", null, 0, -1, null, options, 0);
@@ -186,20 +203,39 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		//1. update the snake
 		snake.update();
+		int xLoc = snake.getHeadLocation().x;
+		int yLoc = snake.getHeadLocation().y;
+		Location resetUp = new Location(xLoc, 0);
+		Location resetDown = new Location(xLoc, HEIGHT);
+		Location resetLeft = new Location(0, yLoc);
+		Location resetRight = new Location(WIDTH, yLoc);
 		//2. if the snake is colliding with its own body 
 		//   or if the snake is out of bounds, call gameOver
-		if(snake.isHeadCollidingWithBody() == true || snake.isOutOfBounds(WIDTH, HEIGHT) == true) {
+		if(snake.isHeadCollidingWithBody() == true) {
 		gameOver();
 		}
 
 		//3. if the location of the head is equal to the location of the food,
 		// 	 feed the snake and set the food location
 		if(snake.getHeadLocation().equals(foodLocation)) {
-			System.out.println("Hi");
 			snake.feed();
 			foodLocation = new Location(gen.nextInt(WIDTH), gen.nextInt(HEIGHT));
 		}
+			
+			if(snake.getHeadLocation().y == HEIGHT+1) {
+            snake.setHeadLocation(resetUp);
+			}
+			if(snake.getHeadLocation().y == -1){
+			snake.setHeadLocation(resetDown);
+			}
+			if(snake.getHeadLocation().x == WIDTH+1) {
+			snake.setHeadLocation(resetLeft);
+			}if(snake.getHeadLocation().x == -1) {
+			snake.setHeadLocation(resetRight);
+			}
+		
 		//4. call panel.repaint();
 		panel.repaint();
 	}
-}
+	}
+

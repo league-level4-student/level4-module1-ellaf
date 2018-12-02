@@ -139,4 +139,13 @@ public class Snake {
 			s.draw(g);
 		}
 	}
+	
+	public void setHeadLocation(Location loc) {
+		head.setLocation(loc);
+	}
+	
+	public int score() {
+	int score = snake.size();
+	return score;
+	}
 }
