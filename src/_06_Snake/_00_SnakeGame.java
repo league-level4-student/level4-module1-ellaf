@@ -8,9 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -40,6 +45,10 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 	private Location foodLocation;
 	
 	Random gen = new Random();
+	
+	Scanner scan;
+	
+	ArrayList<String> highScores;
 
 	public _00_SnakeGame() {
 		snake = new Snake(new Location(WIDTH / 2, HEIGHT / 2));
@@ -159,24 +168,84 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 	}
 
 	private void gameOver() {
-		
+		highScores = new ArrayList<String>();
 		//1. stop the timer
 		timer.stop();
 		//2. tell the user their snake is dead
 		JOptionPane.showMessageDialog(null, "Your snake is dead.");
 		int score = snake.score();
 		String name = JOptionPane.showInputDialog(null, "Your score is: " + score + "\nWhat is your name?");
-	
+		String filename= "src/_06_Snake/scores.txt";
+		 FileWriter fw;
 		try
 		{
-		    String filename= "src/_06_Snake/scores.txt";
-		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+		    
+		    fw = new FileWriter(filename,true); //the true will append the new data
 		    fw.write(score + " - " + name + "\n");//appends the string to the file
 		    fw.close();
 		}
 		catch(IOException ioe)
 		{
 		    System.err.println("IOException: " + ioe.getMessage());
+		}
+		
+		 
+		
+		    try {
+		    		File file = new File(filename);
+		        Scanner sc = new Scanner(file);
+		        
+		        while (sc.hasNextLine()) {
+		            String i = sc.nextLine();
+		            highScores.add(i);
+		            System.out.println(i);
+		        }
+		        sc.close();
+		    } 
+		    catch (FileNotFoundException e) {
+		        e.printStackTrace();
+		    }
+		    
+		    System.out.println(highScores);
+		   for(int j = 0; j < highScores.size(); j++) {
+		    for (int i = 0; i < highScores.size() - 1; i++) {
+				 String thisLine = highScores.get(i);
+				 String nextLine = highScores.get(i+1);
+				 int scoreVal1 = getInt(thisLine);
+				 int scoreVal2 = getInt(nextLine);
+				 if(scoreVal2 > scoreVal1) {
+				highScores.set(i, nextLine);
+				highScores.set(i+1, thisLine);
+				 }
+			}
+		
+		   }
+		   System.out.println(highScores);
+		   
+		   try
+			{
+			    
+			    FileWriter fa = new FileWriter(filename); //the true will append the new data
+			    fa.write("");//appends the string to the file
+			    fa.close();
+			}
+			catch(IOException ioe)
+			{
+			    System.err.println("IOException: " + ioe.getMessage());
+			}
+		   
+		   for (int i = 0; i < highScores.size(); i++) {
+			   try
+				{
+				    
+				    FileWriter fb = new FileWriter(filename, true); //the true will append the new data
+				    fb.write(highScores.get(i) + "\n");//appends the string to the file
+				    fb.close();
+				}
+				catch(IOException ioe)
+				{
+				    System.err.println("IOException: " + ioe.getMessage());
+				}
 		}
 		
 		//3. ask them if they want to play again.
@@ -192,7 +261,23 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		//   reset the snake and the food and start the timer
 		//   else, exit the game
 		
+		
 	}
+	
+	int getInt(String scores) {
+		String num = "";
+		for (int i = 0; i < scores.length(); i++) {
+		if(scores.substring(i, i+1).equals(" ")) {
+		break;
+		}else {
+		num += scores.substring(i, i+1);
+		}
+		}
+		int numInt = Integer.parseInt(num);
+		return numInt;
+	}
+	
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {
